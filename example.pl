@@ -1,8 +1,10 @@
 #!/usr/bin/perl -w
 
+# Tails a log file and logs everything to Justlogging
+
 use Justlogging
 
-$jl = new Justlogging('8a7cd47a0aed66367342c4054ddb9fe9', 'supersize');
+$jl = new Justlogging('<api_key>', '<log_key>');
 
 open(INFILE,"tail -f $ARGV[0] |") || die "Failed!\n";
 while(my $line = <INFILE>)
