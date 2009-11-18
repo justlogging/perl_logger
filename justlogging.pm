@@ -14,9 +14,26 @@ package Justlogging;
     bless $self, $class;
     return $self;
   }
-
+  
+  sub alert {
+    my( $self, $entry ) = @_;
+    
+    my %param = ( 'access_key' => $self->{_api_key}, 'log_key' => $self->{_log_key}, 'entry' => $entry, 'alert' => 'true' );
+    
+    return $self->post_entry(%param)
+    
+  }
+  
   sub log {
     my( $self, $entry ) = @_;
+    
+    my %param = ( 'access_key' => $self->{_api_key}, 'log_key' => $self->{_log_key}, 'entry' => $entry );
+    
+    return $self->post_entry(%param)
+  }
+  
+  sub post_entry {
+    my( $self, %params ) = @_;
     
     my $url = "http://logs.justlogging.com/log";
     
@@ -25,10 +42,10 @@ package Justlogging;
 
     $ua->agent('justlogging_perl/1.0');
     
-    my %param = ( 'access_key' => $self->{_api_key}, 'log_key' => $self->{_log_key}, 'entry' => $entry );
     
-    my $response = $ua->post($url, \%param );
+    my $response = $ua->post($url, \%params );
 
     return $response->is_success;
+    
   }
 1;
